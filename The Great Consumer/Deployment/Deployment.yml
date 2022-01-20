@@ -1,0 +1,20 @@
+name: Netic_ScriptConsumer
+trigger:
+  branches:
+    include:
+      - main
+resources:
+  pipelines:
+  - pipeline: ScriptArtifact #Given alias
+    project: 'Common Resources' #Name of the Azure DevOps project in the same organization
+    source: 'ScriptMaster' #Name of the pipeline that produced the artifact(s)
+    branch: 'main' #Filter to only look at pipeline run from 'main' branch
+
+variables:
+  artifactDirectory: $(Pipeline.Workspace)/ScriptArtifact/MasterScripts #Variable to centralize this info
+  artifactName: 'MasterScripts'
+stages:
+  - stage: DemoDownloadArtifact
+    displayName: Demo Artifact
+    jobs:
+      - template: Artifact.yml

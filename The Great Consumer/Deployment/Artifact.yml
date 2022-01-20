@@ -1,0 +1,11 @@
+jobs:
+  - job: DemoDownloadScriptArtifact
+    pool:
+      vmImage: "windows-latest"
+    steps:
+      - download: ScriptArtifact
+        artifact: $(artifactName)
+      - task: PowerShell@2
+        inputs:
+          targetType: 'filePath'
+          filePath: $(artifactDirectory)/Netic-FakeScript.ps1

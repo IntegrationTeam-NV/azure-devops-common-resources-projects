@@ -1,0 +1,25 @@
+name: ScriptMaster.$(Rev:r)
+trigger:
+  branches:
+    include:
+      - main
+variables:
+  Release.ReleaseName: $(Build.BuildNumber)
+  Release.ReleaseWebUrl: $(System.TeamFoundationCollectionUri)/$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)&view=results
+  Release.SourceCodeBranch: $(Build.SourceBranch)
+  Release.Deployment.RequestedFor: $(Build.RequestedFor)
+  Release.Reason: $(Build.Reason)
+stages:
+  - stage: Publish
+    displayName: Publish
+    jobs:
+      - job: PublishScripts
+        pool:
+          vmImage: "windows-latest"
+        steps:
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: 'Scripts'
+              artifactName: 'MasterScripts'
+              artifactType: 'pipeline'
+            
